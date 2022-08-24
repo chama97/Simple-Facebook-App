@@ -1,8 +1,7 @@
 import axios from "../axios";
 
 class UserService {
-    postUser = async (data) => {
-        
+    postUser = async (data) => {  
         const promise = new Promise((resolve, reject) => {
             console.log("form data: " + data)
             axios.post('users', data)   
