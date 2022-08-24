@@ -68,15 +68,13 @@ export const styleSheet = {
         marginBottom: '10px',
         fontWeight: 'bold',
         cursor: 'pointer'
-        
     },
 
     postWidge: {
-        marginTop:'30px',
-        marginBottom:'20px',
+        marginTop:'20px',
+        marginBottom:'30px',
         width: '70%',
-        backgroundColor: 'white',
-        justifyContent: 'center',
+        background: "#ebf2fa",
         borderRadius: '10px',
         boxShadow: '0px 1px 4px #99ccff',
         border: '1px solid rgb(226, 226, 226)',
