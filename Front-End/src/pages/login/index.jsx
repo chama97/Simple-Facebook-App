@@ -3,11 +3,9 @@ import { styleSheet } from "./style";
 import { withStyles } from "@mui/styles";
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import Grid from '@mui/material/Grid';
-// import LoginService from "../../services/LoginService";
+import LoginService from "../../services/LoginService";
 import { Link } from "react-router-dom";
-// import localStorageService from "../../services/StorageService";
-
-
+import localStorageService from "../../services/StorageService";
 
 
 class Login extends Component{
@@ -21,6 +19,20 @@ class Login extends Component{
             },
 
             data: [],  
+        }
+        this.submitUser = this.submitUser.bind(this);
+    }
+
+
+    submitUser= async () =>{
+        let formData = this.state.formData;
+        let res = await LoginService.postLogin(formData);
+
+        if (res.status === 200) {
+            localStorageService.setItem("token", res.data);
+            window.location.href = "./home"
+        } else {
+            console.log("Invalid Username or password")
         }
     }
 
@@ -42,7 +54,7 @@ class Login extends Component{
                         <div className={classes.logincover}>
                             <ValidatorForm
                                 ref="form"
-                                // onSubmit={this.submitCustomer}
+                                onSubmit={this.submitUser}
                                 onError={errors => console.log(errors)}
                                 className={classes.form__container}>
                                 <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{ padding:'20px'}} >

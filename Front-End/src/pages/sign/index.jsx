@@ -5,9 +5,9 @@ import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import Grid from '@mui/material/Grid';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-// import UserService from "../../services/UserService";
+import SnackBar from "../../component/SnackBar";
+import UserService from "../../services/UserService";
 import { Link } from "react-router-dom";
-// import localStorageService from "../../services/StorageService";
 
 
 class Sign extends Component{
@@ -28,9 +28,53 @@ class Sign extends Component{
             },
 
             data: [],  
-            genderData: [{ label: 'Male'},
-                         { label: 'Female'}]
-       
+            genderData: [
+                { label: 'Male'},
+                { label: 'Female'}
+            ],
+
+            alert: false,
+            message: '',
+            severity: '', 
+        }
+    }
+
+
+    clearFields = () => {
+        this.setState({
+            formData: {
+                name: {
+                    firstname: "",
+                    lastname: ""
+                },
+                gender: "",
+                dateOfBirth : "",
+                email: "",
+                password: "",
+                contact: ""
+            }
+        });
+    };
+  
+    submitUser = async () => {
+        let formData = this.state.formData;
+        let res = await UserService.postUser(formData);
+  
+        console.log(res)
+    
+        if (res.status === 200) {
+            this.setState({
+                alert: true,
+                message: 'done',
+                severity: 'success'
+            });
+            this.clearFields();
+        } else {
+            this.setState({
+                alert: true,
+                message: 'error try again',
+                severity: 'error'
+            });
         }
     }
 
@@ -52,7 +96,7 @@ class Sign extends Component{
                         <div className={classes.logincover}>
                             <ValidatorForm
                                 ref="form"
-                                // onSubmit={this.submitCustomer}
+                                onSubmit={this.submitUser}
                                 onError={errors => console.log(errors)}
                                 className={classes.form__container}>
                                 <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{ padding:'20px'}} >
@@ -100,7 +144,7 @@ class Sign extends Component{
                                                 this.setState({ formData })
                                             }}
                                             style={{ width: '100%'}}
-                                            validators={['required',]}
+                                            validators={['required']}
                                             renderInput={(params) => <TextField {...params} label="Gender" />}
                                         /> 
                                     </Grid>
@@ -185,6 +229,16 @@ class Sign extends Component{
                             </ValidatorForm>
                         </div>
                     </div>
+                    <SnackBar
+                        open={this.state.alert}
+                        onClose={() => {
+                            this.setState({ alert: false })
+                        }}
+                        message={this.state.message}
+                        autoHideDuration={3000}
+                        severity={this.state.severity}
+                        variant="filled"
+                    />
                 </div>
             </Fragment>
         )
