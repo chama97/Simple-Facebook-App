@@ -41,7 +41,11 @@ export const styleSheet = {
         backgroundColor: '#1355b9',
         color: 'white',
         borderRadius: '3px',
+<<<<<<< HEAD
         fontSize: '20px',
+=======
+        fontSize: '22px',
+>>>>>>> 4693f7cf05221bac795bf8e7beeb9018de043d98
         marginTop: "10px",
         marginBottom: '10px',
         fontWeight: 'bold',

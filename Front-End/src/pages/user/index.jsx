@@ -43,7 +43,10 @@ class User extends Component{
             },
 
             data: [],  
+<<<<<<< HEAD
             userData:[],
+=======
+>>>>>>> 4693f7cf05221bac795bf8e7beeb9018de043d98
             genderData: [
                 { label: 'Male'},
                 { label: 'Female'}
@@ -82,6 +85,7 @@ class User extends Component{
         }
     };
 
+<<<<<<< HEAD
     getUserById = async (id) => {
         let res = await UserService.getUserById(id);
         if(res.status === 200) {
@@ -107,6 +111,8 @@ class User extends Component{
    };
 
 
+=======
+>>>>>>> 4693f7cf05221bac795bf8e7beeb9018de043d98
     deleteUser = async (id) => {
         let params = {
             id: id
@@ -199,10 +205,14 @@ class User extends Component{
                                     />
                                 </Grid>
                                 <Grid item lg={4} md={4} sm={12} xm={12} style={{marginTop:'3px'}}  >
+<<<<<<< HEAD
                                     <Button variant="contained"  endIcon={<SearchOutlinedIcon />} style={{height:'50px'}}
                                         onClick={() => {
                                             this.getUserById(this.state.id)
                                         }}>
+=======
+                                    <Button variant="contained"  endIcon={<SearchOutlinedIcon />} style={{height:'50px'}}>
+>>>>>>> 4693f7cf05221bac795bf8e7beeb9018de043d98
                                         Search
                                     </Button>
                                 </Grid>
@@ -343,7 +353,11 @@ class User extends Component{
                                             validators={['required','isString']}
                                         />
                                     </Grid>
+<<<<<<< HEAD
                                     <Grid item lg={6} md={6} sm={6} xm={12} >
+=======
+                                    <Grid item lg={12} md={12} sm={12} xm={12} >
+>>>>>>> 4693f7cf05221bac795bf8e7beeb9018de043d98
                                         <button className={classes.btnUpdate}
                                             variant="contained"
                                             label="Update"
@@ -351,6 +365,7 @@ class User extends Component{
                                         > Update
                                         </button>
                                     </Grid>
+<<<<<<< HEAD
                                     <Grid item lg={6} md={6} sm={6} xm={12} >
                                         <button className={classes.btnUpdate} style={{backgroundColor:'red'}}
                                             variant="contained"
@@ -361,6 +376,8 @@ class User extends Component{
                                         > Clear
                                         </button>
                                     </Grid>
+=======
+>>>>>>> 4693f7cf05221bac795bf8e7beeb9018de043d98
                                 </Grid>
                             </ValidatorForm>
                             
