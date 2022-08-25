@@ -29,7 +29,8 @@ router.post('/', async(req, res) => {
 
     try {
         const response = await user.save()
-        res.json(response)
+        res.status(200).send({ message: "Success" });
+        // res.json(response)
     } catch(err) {
         res.send('Err: ' + err)
     }
