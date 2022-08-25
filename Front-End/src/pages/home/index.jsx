@@ -9,12 +9,33 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import TextField from '@mui/material/TextField';
 import Postcard from '../../component/Postcard';
+import localStorageService from "../../services/StorageService";
+import jwt_decode from "jwt-decode";
 
 
 class Home extends Component{
 
-   
+    constructor(props) {
+        super(props);
+        this.state = {
+          userData: "",
+        }
+    }
 
+    componentDidMount = async () =>{
+      const token = await localStorageService.getItem("token");
+      if (token){
+        console.log(token);
+        const decode = jwt_decode(token.token);
+        console.log(decode.user);
+        this.setState({
+          userData: decode.user
+        })
+      }
+       
+    }
+
+   
     render(){
         let { classes } = this.props
 
@@ -28,7 +49,7 @@ class Home extends Component{
                             <span style={{fontSize:'25px', fontWeight:'bold', color:'#1f2323' }}>Chamath Manchanayake</span>
                         </div>
                         <div className={classes.profileDetail}>
-                        <Grid container style={{ paddingLeft:'30px'}} spacing={{ xs: 1, md: 1 }} columns={{ xs: 4, sm: 8, md: 12 }} >
+                            <Grid container style={{ paddingLeft:'30px'}} spacing={{ xs: 1, md: 1 }} columns={{ xs: 4, sm: 8, md: 12 }} >
                             <Grid item lg={6} md={6} sm={6} xm={6}  style={{ marginTop:'20px'}} >
                                 <TextField id="outlined-basic"  variant="outlined" defaultValue="First Name :" InputProps={{readOnly: true,}} />
                             </Grid>
@@ -77,10 +98,8 @@ class Home extends Component{
                             <Grid item lg={6} md={6} sm={6} xm={6} >
                                 <TextField id="outlined-basic"  variant="outlined" defaultValue="0928374637"/>
                             </Grid>
-                    </Grid> 
-
+                            </Grid> 
                         </div>
-    
                     </div>
                     <div className={classes.postSide}>
                         <div className={classes.post}>
