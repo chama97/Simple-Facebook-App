@@ -7,8 +7,8 @@ app.use(express.json())
 
 router.get('/', async (req, res) => {
     try {
-        const posts = await Post.find()
-        res.json(posts)
+        const post = await Post.find()
+        res.json(post)
     } catch (err) {
         res.send('Err: ' + err)
     }
@@ -25,7 +25,6 @@ router.post('/', async(req, res) => {
 
     try {
         const response = await posts.save()
-        res.status(200).send({ message: "Success" });
         res.json(response)
     } catch(err) {
         res.send('Err: ' + err)

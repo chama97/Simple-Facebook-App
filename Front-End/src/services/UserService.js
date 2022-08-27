@@ -29,10 +29,10 @@ class UserService {
         return await promise;
     }
 
-    putCustomer = async (data) => {
+    putUser = async (data) => {
         const promise = new Promise((resolve, reject) => {
            console.log(data)
-           axios.put('customer', data)
+           axios.put('user', data)
            .then((res) => {
                return resolve(res)
            })
@@ -43,9 +43,9 @@ class UserService {
         return await promise;
    };
    
-   deleteUser = async (params) => {
+   deleteUser = async (id) => {
         const promise = new Promise((resolve, reject) => {
-           axios.delete('user', {params: params})
+           axios.delete('user/'+id+'')
            .then((res) => {
                return resolve(res)
            }) 
@@ -56,9 +56,9 @@ class UserService {
         return await promise;
    };
 
-    getUserById = async (id) => {
+    getUserById = async (_id) => {
          const promise = new Promise((resolve, reject) => {
-            axios.get('user/'+id+'')
+            axios.get('user/'+_id+'')
             .then((res) => {
                 return resolve(res)
             }) 

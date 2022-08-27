@@ -3,16 +3,17 @@ const User = require('../models/user.models')
 
 const postSchema = new mongoose.Schema({
     userId: {
-        type: Schema.Types.ObjectId,
-        ref: User
+        type: String,
+        required: true
     }     
     ,
     date: {
-        type: Date,
+        type: String,
         required: true
     },
+    
     time: {
-        type: Date,
+        type: String,
         required: true,
         timestamps: true
     },

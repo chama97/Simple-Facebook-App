@@ -15,25 +15,25 @@ import jwt_decode from "jwt-decode";
 
 class Home extends Component{
 
-    constructor(props) {
-        super(props);
-        this.state = {
-          userData: "",
-        }
-    }
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {
+    //       userData: "",
+    //     }
+    // }
 
-    componentDidMount = async () =>{
-      const token = await localStorageService.getItem("token");
-      if (token){
-        console.log(token);
-        const decode = jwt_decode(token.token);
-        console.log(decode.user);
-        this.setState({
-          userData: decode.user
-        })
-      }
+    // componentDidMount = async () =>{
+    //   const token = await localStorageService.getItem("token");
+    //   if (token){
+    //     console.log(token);
+    //     const decode = jwt_decode(token.token);
+    //     console.log(decode.user);
+    //     this.setState({
+    //       userData: decode.user
+    //     })
+    //   }
        
-    }
+    // }
 
    
     render(){

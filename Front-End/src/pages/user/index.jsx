@@ -30,7 +30,7 @@ class User extends Component{
         super(props);
         this.state = {
             formData: {
-                id: "",
+                _id: "",
                 name: {
                     firstname: "",
                     lastname: ""
@@ -43,14 +43,8 @@ class User extends Component{
             },
 
             data: [],  
-<<<<<<< HEAD
             userData:[],
-=======
->>>>>>> 4693f7cf05221bac795bf8e7beeb9018de043d98
-            genderData: [
-                { label: 'Male'},
-                { label: 'Female'}
-            ],
+            genderData: ['Male','Female'],
 
             alert: false,
             message: '',
@@ -61,6 +55,7 @@ class User extends Component{
     clearFields = () => {
         this.setState({
             formData: {
+                _id: "",
                 name: {
                     firstname: "",
                     lastname: ""
@@ -78,28 +73,27 @@ class User extends Component{
         let res = await UserService.fetchUser();
         if (res.status === 200) {
             this.setState({
-                data: res.data.data,
+                data: res.data,
             });
         } else {
             console.log("fetching error: " + res)
         }
     };
 
-<<<<<<< HEAD
-    getUserById = async (id) => {
-        let res = await UserService.getUserById(id);
+    getUserById = async (_id) => {
+        let res = await UserService.getUserById(_id);
         if(res.status === 200) {
             this.setState({
-               id: id.id,
+               _id: _id._id,
                 name: {
-                    firstname: id.firstname,
-                    lastname: id.lastname
+                    firstname: _id.firstname,
+                    lastname: _id.lastname
                 },
-                gender: id.gender,
-                dateOfBirth : id.dateOfBirth,
-                email: id.email,
-                password: id.password,
-                contact: id.contact
+                gender: _id.gender,
+                dateOfBirth : _id.dateOfBirth,
+                email: _id.email,
+                password: _id.password,
+                contact: _id.contact
             });
         } else {
            this.setState({
@@ -111,13 +105,11 @@ class User extends Component{
    };
 
 
-=======
->>>>>>> 4693f7cf05221bac795bf8e7beeb9018de043d98
-    deleteUser = async (id) => {
-        let params = {
-            id: id
-        }
-         let res = await UserService.deleteUser(params);
+    deleteUser = async (_id) => {
+        // let params = {
+        //     _id: _id
+        // }
+         let res = await UserService.deleteUser(_id);
          if(res.status === 200) {
             this.setState({
                 alert: true,
@@ -139,10 +131,10 @@ class User extends Component{
 
          this.setState({ 
             formData: {
-                id: data.id,
+                _id: data._id,
                 name: {
-                    firstname: data.firstname,
-                    lastname: data.lastname
+                    firstname: data.name.firstname,
+                    lastname: data.name.lastname
                 },
                 gender: data.gender,
                 dateOfBirth : data.dateOfBirth,
@@ -194,26 +186,22 @@ class User extends Component{
                                         id="outlined-basic"
                                         label="Enter User Name"
                                         variant="outlined"
-                                        value={this.state.formData.id}
+                                        value={this.state.formData._id}
                                         onChange={(e) => {
                                             console.log(e.target.value)
                                             let formData = this.state.formData
-                                            formData.id = e.target.value
+                                            formData._id = e.target.value
                                             this.setState({ formData })
                                         }}
                                         style={{ width: '100%' }}
                                     />
                                 </Grid>
                                 <Grid item lg={4} md={4} sm={12} xm={12} style={{marginTop:'3px'}}  >
-<<<<<<< HEAD
                                     <Button variant="contained"  endIcon={<SearchOutlinedIcon />} style={{height:'50px'}}
                                         onClick={() => {
-                                            this.getUserById(this.state.id)
+                                            this.getUserById(this.state._id)
                                         }}>
-=======
-                                    <Button variant="contained"  endIcon={<SearchOutlinedIcon />} style={{height:'50px'}}>
->>>>>>> 4693f7cf05221bac795bf8e7beeb9018de043d98
-                                        Search
+                                            Search
                                     </Button>
                                 </Grid>
                             </Grid>
@@ -229,11 +217,11 @@ class User extends Component{
                                             id="outlined-basic"
                                             label="User ID"
                                             variant="outlined"
-                                            value={this.state.formData.id}
+                                            value={this.state.formData._id}
                                             onChange={(e) => {
                                                 console.log(e.target.value)
                                                 let formData = this.state.formData
-                                                formData.id = e.target.value
+                                                formData._id = e.target.value
                                                 this.setState({ formData })
                                             }}
                                             style={{ width: '100%' }}
@@ -353,31 +341,27 @@ class User extends Component{
                                             validators={['required','isString']}
                                         />
                                     </Grid>
-<<<<<<< HEAD
                                     <Grid item lg={6} md={6} sm={6} xm={12} >
-=======
-                                    <Grid item lg={12} md={12} sm={12} xm={12} >
->>>>>>> 4693f7cf05221bac795bf8e7beeb9018de043d98
-                                        <button className={classes.btnUpdate}
+                                    <button className={classes.btnUpdate}
                                             variant="contained"
                                             label="Update"
                                             type="submit"
+                                           
                                         > Update
                                         </button>
                                     </Grid>
-<<<<<<< HEAD
+
                                     <Grid item lg={6} md={6} sm={6} xm={12} >
                                         <button className={classes.btnUpdate} style={{backgroundColor:'red'}}
                                             variant="contained"
                                             label="Clear"
+                                            type="clear"
                                             onClick={() => {
                                                 this.clearFields()
                                             }}
                                         > Clear
                                         </button>
                                     </Grid>
-=======
->>>>>>> 4693f7cf05221bac795bf8e7beeb9018de043d98
                                 </Grid>
                             </ValidatorForm>
                             
@@ -386,8 +370,8 @@ class User extends Component{
                     <div className={classes.tableSide}>
                         <div className={classes.tableBox}>
                             <Grid container style={{ height: '100%', width: '100%', padding: '10px' }}>
-                                <TableContainer component={Paper} sx={{maxHeight:'100%'}}>
-                                    <Table sx={{ minWidth: 650 }} aria-label="customer table">
+                                <TableContainer component={Paper} sx={{maxHeight:'100%',  maxWidth: '100%' }}>
+                                    <Table aria-label="customer table">
                                         <TableHead>
                                             <TableRow style={{backgroundImage: 'linear-gradient(to right top, #8655a1, #815fb8, #746ad0, #5b77e8, #1884ff)'}}>
                                             <TableCell align="left" style={{color:'white'}}> ID</TableCell>
@@ -405,7 +389,7 @@ class User extends Component{
                                     {
                                         this.state.data.map((row) => (
                                             <TableRow>
-                                                <TableCell align="left">{row.id}</TableCell>
+                                                <TableCell align="left">{row._id}</TableCell>
                                                 <TableCell align="left">{row.name.firstname}</TableCell>
                                                 <TableCell align="left">{row.name.lastname}</TableCell>
                                                 <TableCell align="left">{row.gender}</TableCell>
@@ -428,7 +412,7 @@ class User extends Component{
                                                     <Tooltip title="Delete">
                                                         <IconButton
                                                             onClick={() => {
-                                                                this.deleteUser(row.id)
+                                                                this.deleteUser(row._id)
                                                             }}
                                                         >
                                                         <DeleteIcon color="error" />
