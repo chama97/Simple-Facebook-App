@@ -13,14 +13,38 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import InsertCommentOutlinedIcon from '@mui/icons-material/InsertCommentOutlined';
 import ImgOne from '../../assets/img/86853.jpg';
+import PostService from "../../services/PostService";
 
 
 export default class PostCard extends Component {
-    
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: [],  
+        }
+    }
+
+    loadData = async () => {
+        let res = await PostService.fetchPost();
+        if (res.status === 200) {
+            this.setState({
+                data: res.data,
+            });
+        } else {
+            console.log("fetching error: " + res)
+        }
+    };
+
+    componentDidMount() {
+        this.loadData();
+    }
 
     render() {
         return (
             <>
+            {
+                this.state.data.map((card) => (
                     <Card sx={{ maxWidth: '100%', marginTop: '20px' }}>
                         <CardHeader
                             avatar={
@@ -33,20 +57,18 @@ export default class PostCard extends Component {
                                     <MoreVertIcon />
                                     </IconButton>
                             }
-                            title="Chamath Manchanayake"
-                            subheader="August 24, 2022"
+                            title={card.userId}
+                            subheader={card.date}
                         />
                         <CardMedia
                             component="img"
                             height="300"
-                            imag src={ImgOne}
+                            src={card.body}
                             alt="Paella dish"
                         />
                         <CardContent>
                             <Typography variant="body2" color="text.secondary">
-                                This impressive paella is a perfect party dish and a fun meal to cook
-                                together with your guests. Add 1 cup of frozen peas along with the mussels,
-                                if you like.
+                                {card.title}
                             </Typography>
                         </CardContent>
                         <CardActions style={{display: 'flex', justifyContent: 'space-around'}}>
@@ -65,7 +87,9 @@ export default class PostCard extends Component {
                             </IconButton>
                         </CardActions>
                     </Card>
-                
+
+                ))
+            } 
             </>
         );
     }

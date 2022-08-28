@@ -14,7 +14,7 @@ class Login extends Component{
         super(props);
         this.state = {
             formData: {
-                userName: "",
+                email: "",
                 password: ""
             },
 
@@ -63,11 +63,11 @@ class Login extends Component{
                                             id="outlined-basic"
                                             label="User Name"
                                             variant="outlined"
-                                            value={this.state.formData.userName}
+                                            value={this.state.formData.email}
                                             onChange={(e) => {
                                                 console.log(e.target.value)
                                                 let formData = this.state.formData
-                                                formData.userName = e.target.value
+                                                formData.email = e.target.value
                                                 this.setState({ formData })
                                             }}
                                             style={{ width: '100%' }}

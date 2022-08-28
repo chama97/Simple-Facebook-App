@@ -11,29 +11,93 @@ import TextField from '@mui/material/TextField';
 import Postcard from '../../component/Postcard';
 import localStorageService from "../../services/StorageService";
 import jwt_decode from "jwt-decode";
+import PostService from "../../services/PostService";
 
 
 class Home extends Component{
 
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //       userData: "",
-    //     }
-    // }
+    constructor(props) {
+        super(props);
+        this.state = {
+            _id: "",
+            name: {
+                firstname: "",
+                lastname: ""
+            },
+            gender: "",
+            dateOfBirth : "",
+            email: "",
+            password: "",
+            contact: "",
 
-    // componentDidMount = async () =>{
-    //   const token = await localStorageService.getItem("token");
-    //   if (token){
-    //     console.log(token);
-    //     const decode = jwt_decode(token.token);
-    //     console.log(decode.user);
-    //     this.setState({
-    //       userData: decode.user
-    //     })
-    //   }
-       
-    // }
+            formData: {
+                userId: 'aaa',
+                date: '',
+                time: '',
+                title: '',
+                body: []
+            },
+
+            alert: false,
+            message: '',
+            severity: '', 
+        }
+    }
+
+    componentDidMount = async () =>{
+      const token = await localStorageService.getItem("token");
+      if (token){
+        console.log(token);
+        const decode = jwt_decode(token.data);
+        console.log(decode._id);
+        this.setState({
+            _id: decode._id,
+            name: {
+                firstname: decode.name.firstname,
+                lastname: decode.name.lastname
+            },
+            gender: decode.gender,
+            dateOfBirth : decode.dateOfBirth,
+            email: decode.email,
+            password: decode.password,
+            contact: decode.contact
+        })
+      }
+    }
+
+    clearFields = () => {
+        this.setState({
+            formData: {
+                userId: this.state._id,
+                date: '',
+                time: '',
+                title: '',
+                body: []
+            },
+        });
+    };
+
+    submitPost = async () => {
+        let formData = this.state.formData;
+        let res = await PostService.postPost(formData);
+  
+        console.log(res)
+    
+        if (res.status === 200) {
+            this.setState({
+                alert: true,
+                message: 'done',
+                severity: 'success'
+            });
+            this.clearFields();
+        } else {
+            this.setState({
+                alert: true,
+                message: 'error try again',
+                severity: 'error'
+            });
+        }
+    }
 
    
     render(){
@@ -46,7 +110,8 @@ class Home extends Component{
                     <div className={classes.menuSide}>
                         <div className={classes.profileImg}>
                             <AccountCircle style={{fontSize:'150px', color:'#88bbdd'}}/>
-                            <span style={{fontSize:'25px', fontWeight:'bold', color:'#1f2323' }}>Chamath Manchanayake</span>
+                            <span style={{fontSize:'25px', fontWeight:'bold', color:'#1f2323' }}> {this.state.name.firstname} { this.state.name.lastname}</span>
+                           
                         </div>
                         <div className={classes.profileDetail}>
                             <Grid container style={{ paddingLeft:'30px'}} spacing={{ xs: 1, md: 1 }} columns={{ xs: 4, sm: 8, md: 12 }} >
@@ -54,49 +119,49 @@ class Home extends Component{
                                 <TextField id="outlined-basic"  variant="outlined" defaultValue="First Name :" InputProps={{readOnly: true,}} />
                             </Grid>
                             <Grid item lg={6} md={6} sm={6} xm={6}  style={{ marginTop:'20px'}} >
-                                <TextField id="outlined-basic"  variant="outlined" defaultValue="Chamath"/>
+                                <TextField id="outlined-basic"  variant="outlined" value= {this.state.name.firstname}/>
                             </Grid>
 
                             <Grid item lg={6} md={6} sm={6} xm={6} >
                                 <TextField id="outlined-basic"  variant="outlined" defaultValue="Last Name :" InputProps={{readOnly: true,}} />
                             </Grid>
                             <Grid item lg={6} md={6} sm={6} xm={6} >
-                                <TextField id="outlined-basic"  variant="outlined" defaultValue="Manchanayake"/>
+                                <TextField id="outlined-basic"  variant="outlined" value= {this.state.name.lastname}/>
                             </Grid>
 
                             <Grid item lg={6} md={6} sm={6} xm={6} >
                                 <TextField id="outlined-basic"  variant="outlined" defaultValue="Gender :" InputProps={{readOnly: true,}} />
                             </Grid>
                             <Grid item lg={6} md={6} sm={6} xm={6} >
-                                <TextField id="outlined-basic"  variant="outlined" defaultValue="Male"/>
+                                <TextField id="outlined-basic"  variant="outlined" value= {this.state.gender}/>
                             </Grid>
 
                             <Grid item lg={6} md={6} sm={6} xm={6} >
                                 <TextField id="outlined-basic"  variant="outlined" defaultValue="Date of Birth :" InputProps={{readOnly: true,}} />
                             </Grid>
                             <Grid item lg={6} md={6} sm={6} xm={6} >
-                                <TextField id="outlined-basic"  variant="outlined" defaultValue="1997-12-09"/>
+                                <TextField id="outlined-basic"  variant="outlined" value= {this.state.dateOfBirth}/>
                             </Grid>
 
                             <Grid item lg={6} md={6} sm={6} xm={6} >
                                 <TextField id="outlined-basic"  variant="outlined" defaultValue="Email :" InputProps={{readOnly: true,}} />
                             </Grid>
                             <Grid item lg={6} md={6} sm={6} xm={6} >
-                                <TextField id="outlined-basic"  variant="outlined" defaultValue="Chama@gmail.com"/>
+                                <TextField id="outlined-basic"  variant="outlined" value= {this.state.email}/>
                             </Grid>
 
                             <Grid item lg={6} md={6} sm={6} xm={6} >
                                 <TextField id="outlined-basic"  variant="outlined" defaultValue="Password :" InputProps={{readOnly: true,}} />
                             </Grid>
                             <Grid item lg={6} md={6} sm={6} xm={6} >
-                                <TextField id="outlined-basic"  variant="outlined" defaultValue="1234"/>
+                                <TextField id="outlined-basic"  variant="outlined" value={this.state.password}/>
                             </Grid>
 
                             <Grid item lg={6} md={6} sm={6} xm={6} >
                                 <TextField id="outlined-basic"  variant="outlined" defaultValue="Contact :" InputProps={{readOnly: true,}} />
                             </Grid>
                             <Grid item lg={6} md={6} sm={6} xm={6} >
-                                <TextField id="outlined-basic"  variant="outlined" defaultValue="0928374637"/>
+                                <TextField id="outlined-basic"  variant="outlined" value={this.state.contact}/>
                             </Grid>
                             </Grid> 
                         </div>
@@ -106,7 +171,7 @@ class Home extends Component{
                             <div className={classes.postTitle}><span>Create post</span></div>
                             <ValidatorForm
                                 ref="form"
-                                // onSubmit={this.submitCustomer}
+                                 onSubmit={this.submitPost}
                                 onError={errors => console.log(errors)}
                                 className={classes.form__container}>
                                 <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{ padding:'20px'}} >
@@ -115,13 +180,13 @@ class Home extends Component{
                                             id="outlined-basic"
                                             label="What's on your mind ?"
                                             variant="outlined"
-                                            // value={this.state.formData.userName}
-                                            // onChange={(e) => {
-                                            //     console.log(e.target.value)
-                                            //     let formData = this.state.formData
-                                            //     formData.userName = e.target.value
-                                            //     this.setState({ formData })
-                                            // }}
+                                            value={this.state.formData.title}
+                                            onChange={(e) => {
+                                                console.log(e.target.value)
+                                                let formData = this.state.formData
+                                                formData.title = e.target.value
+                                                this.setState({ formData })
+                                            }}
                                             style={{ width: '100%' }}
                                             validators={['required']}
                                         />
@@ -130,11 +195,11 @@ class Home extends Component{
                                         <Button variant="outlined" component="label" size="large" endIcon={<CameraAltIcon />}>
                                             Add to your post
                                             <input hidden accept="image/*" multiple type="file" 
-                                                // onChange={(e) => {
-                                                //     let formData = this.state.formData
-                                                //     formData.interiorView = e.target.files[0]
-                                                //     this.setState({ formData })
-                                                // }}
+                                                onChange={(e) => {
+                                                    let formData = this.state.formData
+                                                    formData.interiorView = e.target.files[0]
+                                                    this.setState({ formData })
+                                                }}
                                             />
                                         </Button>
                                     </Grid>
@@ -150,7 +215,6 @@ class Home extends Component{
                             </ValidatorForm>
                         </div>
                         <div className={classes.postWidge}>
-                            <Postcard />
                             <Postcard />
                         </div>
                     </div>
